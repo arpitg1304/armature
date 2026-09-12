@@ -177,6 +177,8 @@ const browserGlobals = new Set([
   "RTCPeerConnection",
   "navigator",
   "location",
+  "localStorage",
+  "sessionStorage",
   "self",
   "HTMLCanvasElement",
   "HTMLImageElement",
