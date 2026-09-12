@@ -4,7 +4,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{window.requestAnimationFrame=cb=>(window.__nextFrame=cb,1);});
- await page.goto(pathToFileURL(path.resolve('dist/robotics-arm-studio.html')).href);await page.waitForFunction(()=>window.armature?.memory);
+ await page.goto(pathToFileURL(path.resolve('dist/robotics-arm-studio.html')).href);await page.waitForFunction(()=>window.armature?.builder);
  const images=await page.evaluate(input=>{
   document.getElementById('scene').value='kitting';armature.reset(input.config);
   const frames=new Set([0,Math.floor(input.transitions.length/2),input.transitions.length-1]);const images=[];

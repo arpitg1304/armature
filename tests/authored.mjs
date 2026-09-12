@@ -28,7 +28,7 @@ const result = vm.runInContext(
   `(()=>{
  const {RobotEnvironment,projectFromEnvironment,createStage,validateTask}=testAPI;
  const env=new RobotEnvironment(THREE,'ur5e');env.reset({robotId:'ur5e',task:'kit',object:'blocks',objectCount:1,seed:1,physicsMode:'kinematic'});
- const project=projectFromEnvironment(env,'Migration pick/place');project.task.stages=['grasp','lift','move','place','release','retreat'].map(kind=>createStage(kind,'part-1','target-1'));
+ const project=projectFromEnvironment(env,'Authored pick/place');project.task.stages=['grasp','lift','move','place','release','retreat'].map(kind=>createStage(kind,'part-1','target-1'));
  const validation=validateTask(project);env.reset({composition:project,physicsMode:'kinematic',maxSteps:3000});let output;
  for(let i=0;i<3000;i++){output=env.step(env.taskRunner.action());if(output.terminated||output.truncated)break;}
  return {validation,steps:env.steps,terminated:output.terminated,truncated:output.truncated,report:output.info.authoredTask};
@@ -40,9 +40,9 @@ assert(result.steps > 100);
 assert(result.terminated && !result.truncated);
 assert.equal(result.report.status, "succeeded");
 assert(result.report.results.some((r) => r.status !== "pending"));
-await fs.mkdir("test-results/v28", { recursive: true });
+await fs.mkdir("test-results/integration", { recursive: true });
 await fs.writeFile(
-  "test-results/v28/authored.json",
+  "test-results/integration/authored.json",
   JSON.stringify(result, null, 2),
 );
 console.log(

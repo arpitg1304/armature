@@ -46,7 +46,7 @@ const replacements = {
   "/* ARMATURE_APP */":
     app.outputFiles[0].text +
     "\n" +
-    (await fs.readFile("vendor/v28-bundle-LICENSE.txt", "utf8")),
+    (await fs.readFile("vendor/bundle-LICENSE.txt", "utf8")),
 };
 for (const [marker, value] of Object.entries(replacements)) {
   if (html.split(marker).length !== 2)

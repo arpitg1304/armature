@@ -1396,7 +1396,7 @@ var yieldTraining = () => new Promise((u) => setTimeout(u, 0));
       "text/plain",
     )),
   (window.armature = {
-    version: "28.0.0",
+    version: "0.1.0",
     robots: Object.keys(ROBOT_MODELS),
     get spec() {
       return {

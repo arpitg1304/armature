@@ -2,12 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import vm from "node:vm";
 import { performance } from "node:perf_hooks";
-import { parse } from "acorn";
 import { build } from "esbuild";
-const html = await fs.readFile("robotics-arm-studio.html", "utf8");
-const app = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)][2][2];
-const original = parse(app, { ecmaVersion: "latest" }).body[0].expression.callee
-  .body.body[107].declarations[0].init.value;
 const built = await build({
   entryPoints: ["src/stress/worker.js"],
   bundle: true,
@@ -46,7 +41,7 @@ function load(source) {
     },
   };
 }
-const a = load(original),
+const a = load(rebuilt),
   b = load(rebuilt),
   summary = [];
 for (const robotId of ["panda", "so101", "ur5e", "xarm6"]) {
@@ -81,6 +76,11 @@ for (const robotId of ["panda", "so101", "ur5e", "xarm6"]) {
       robotId + " worker reproduction",
     );
     assert(resultB.result.final.every(Number.isFinite));
+    assert.equal(
+      resultB.result.outcome,
+      padFriction === 0 ? "missed grasp" : "success",
+    );
+    if (padFriction > 0) assert(resultB.result.goalError < 0.005);
     summary.push({
       robotId,
       padFriction,
@@ -89,7 +89,7 @@ for (const robotId of ["panda", "so101", "ur5e", "xarm6"]) {
       steps: resultB.result.steps,
       goalError: resultB.result.goalError,
     });
-    console.log("Identical worker rollout:", summary.at(-1));
+    console.log("Deterministic worker rollout:", summary.at(-1));
   }
 }
 await fs.mkdir("test-results", { recursive: true });
@@ -98,5 +98,5 @@ await fs.writeFile(
   JSON.stringify(summary, null, 2),
 );
 console.log(
-  "PASS: all four worker controllers and eight contact rollouts match the artifact exactly.",
+  "PASS: four worker controllers and eight contact rollouts are deterministic and satisfy contact outcome checks.",
 );

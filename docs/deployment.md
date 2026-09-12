@@ -20,4 +20,4 @@ The local browser smoke uses installed Chrome. CI installs Playwright Chromium. 
 
 Memory tasks are hidden in the default interface, and the Memory Lab is not initialized. Append `?memory=1` to opt into the retained research interface. This is a visibility preference, not access control: the research source remains in this public repository and bundle. Protocol tests continue to cover it.
 
-Local recording reports, source backups, Python environments, dependencies and generated files are ignored by Git. The supplied HTML artifacts are retained as migration fixtures. Phone pairing still needs the separate, unprovided `/api/phone` service; GitHub Pages cannot supply it. Default robot motion remains velocity-limited kinematic servos with approximate collision proxies.
+Local recording reports, source backups, Python environments, dependencies and generated files are ignored by Git. Phone pairing still needs the separate, unprovided `/api/phone` service; GitHub Pages cannot supply it. Default robot motion remains velocity-limited kinematic servos with approximate collision proxies.

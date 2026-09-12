@@ -1,4 +1,4 @@
-> V28 migration: these are future research proposals. V28 adds authoring, sensors and trial tools, but does not implement the controlled inference/evaluation bridge proposed here.
+> Future research proposals: an external policy-inference and controlled evaluation bridge is not implemented.
 
 # Proposed next improvements
 

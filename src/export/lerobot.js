@@ -366,7 +366,7 @@ function createDatasetFiles(u) {
           }
         : {}),
       "meta/armature.json": ve({
-        generator: "ARMATURE Studio 28.0.0",
+        generator: "ARMATURE Studio 0.1.0",
         robot_id: l.id,
         model_source: l.asset.source,
         notice: l.asset.notice,
