@@ -1,0 +1,363 @@
+{
+  "source": "armature-studio-v28.html",
+  "sha256": "869e9ccbeb014d9d9496ab9e773a6f9294febcce02d06bb17baf62c6686fbb43",
+  "groups": [
+    {
+      "file": "vendor/three-addons.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          0,
+          301
+        ],
+        [
+          308,
+          309
+        ]
+      ]
+    },
+    {
+      "file": "src/authoring/import-assets.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          301,
+          307
+        ]
+      ]
+    },
+    {
+      "file": "src/authoring/import-dialog.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          307,
+          308
+        ],
+        [
+          309,
+          311
+        ]
+      ]
+    },
+    {
+      "file": "src/authoring/skills.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          311,
+          315
+        ],
+        [
+          320,
+          331
+        ]
+      ]
+    },
+    {
+      "file": "src/scenes/lighting.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          315,
+          320
+        ]
+      ]
+    },
+    {
+      "file": "src/authoring/project.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          331,
+          346
+        ],
+        [
+          348,
+          349
+        ]
+      ]
+    },
+    {
+      "file": "src/authoring/task-runner.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          346,
+          348
+        ]
+      ]
+    },
+    {
+      "file": "src/authoring/builder.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          349,
+          351
+        ]
+      ]
+    },
+    {
+      "file": "vendor/qrcode.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          351,
+          355
+        ]
+      ]
+    },
+    {
+      "file": "src/teleop/phone.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          355,
+          361
+        ]
+      ]
+    },
+    {
+      "file": "vendor/fflate-sensors.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          361,
+          388
+        ]
+      ]
+    },
+    {
+      "file": "src/export/demonstrations.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          388,
+          394
+        ]
+      ]
+    },
+    {
+      "file": "src/teleop/demonstrations.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          394,
+          396
+        ]
+      ]
+    },
+    {
+      "file": "src/experiments/config.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          396,
+          397
+        ]
+      ]
+    },
+    {
+      "file": "src/sensors/depth.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          397,
+          406
+        ]
+      ]
+    },
+    {
+      "file": "src/sensors/cameras.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          406,
+          409
+        ]
+      ]
+    },
+    {
+      "file": "src/simulation/panda-inertias.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          409,
+          412
+        ]
+      ]
+    },
+    {
+      "file": "vendor/cannon-dynamics.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          412,
+          506
+        ]
+      ]
+    },
+    {
+      "file": "src/simulation/panda-dynamics.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          506,
+          508
+        ]
+      ]
+    },
+    {
+      "file": "src/experiments/randomized.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          508,
+          511
+        ]
+      ]
+    },
+    {
+      "file": "src/experiments/trials.js",
+      "scope": "outer",
+      "ranges": [
+        [
+          511,
+          514
+        ]
+      ]
+    },
+    {
+      "file": "vendor/fflate.js",
+      "scope": "core",
+      "ranges": [
+        [
+          0,
+          24
+        ]
+      ]
+    },
+    {
+      "file": "src/robots/models.js",
+      "scope": "core",
+      "ranges": [
+        [
+          24,
+          30
+        ]
+      ]
+    },
+    {
+      "file": "vendor/cannon-es.js",
+      "scope": "core",
+      "ranges": [
+        [
+          30,
+          82
+        ]
+      ]
+    },
+    {
+      "file": "src/simulation/objects.js",
+      "scope": "core",
+      "ranges": [
+        [
+          82,
+          85
+        ]
+      ]
+    },
+    {
+      "file": "src/simulation/environment.js",
+      "scope": "core",
+      "ranges": [
+        [
+          85,
+          89
+        ]
+      ]
+    },
+    {
+      "file": "src/robots/visuals.js",
+      "scope": "core",
+      "ranges": [
+        [
+          89,
+          90
+        ]
+      ]
+    },
+    {
+      "file": "vendor/parquet.js",
+      "scope": "core",
+      "ranges": [
+        [
+          90,
+          235
+        ]
+      ]
+    },
+    {
+      "file": "src/robots/urdf.js",
+      "scope": "core",
+      "ranges": [
+        [
+          235,
+          237
+        ]
+      ]
+    },
+    {
+      "file": "src/export/lerobot.js",
+      "scope": "core",
+      "ranges": [
+        [
+          237,
+          244
+        ]
+      ]
+    },
+    {
+      "file": "src/ui/studio-tabs.js",
+      "scope": "core",
+      "ranges": [
+        [
+          244,
+          246
+        ]
+      ]
+    },
+    {
+      "file": "src/stress/lab.js",
+      "scope": "core",
+      "ranges": [
+        [
+          247,
+          249
+        ]
+      ]
+    },
+    {
+      "file": "src/scenes/kitting-cell.js",
+      "scope": "core",
+      "ranges": [
+        [
+          250,
+          251
+        ]
+      ]
+    },
+    {
+      "file": "src/main.js",
+      "scope": "core",
+      "ranges": [
+        [
+          251,
+          334
+        ]
+      ]
+    }
+  ],
+  "workerSha256": "7cc801591ef0b25a8528121582ccc3b44b963c09834315218940a530f655677a"
+}

@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Authoring Edition · ARMATURE — Robot Studio</title>
+    <style>
+      /* ARMATURE_STYLES */
+    </style>
+  </head>
+  <body>
+    <header>
+      <button
+        id="sidebarToggle"
+        class="iconButton"
+        aria-label="Toggle scene controls"
+        aria-expanded="true"
+      >
+        ☰</button
+      ><b>ARMATURE<span style="color: #c3ef74"> /</span></b
+      ><span>DEMONSTRATION STUDIO</span>
+    </header>
+    <div class="app">
+      <aside id="controlPanel" aria-label="Studio controls">
+        <div class="controlNav">
+          <div class="controlTitle">
+            Studio <span id="controlContext">Setup</span>
+          </div>
+          <div role="tablist" aria-label="Control categories">
+            <button
+              id="tab-scene"
+              role="tab"
+              aria-controls="panel-scene"
+              aria-selected="true"
+              tabindex="0"
+            >
+              Setup</button
+            ><button
+              id="tab-demo"
+              role="tab"
+              aria-controls="panel-demo"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Demonstrate</button
+            ><button
+              id="tab-cameras"
+              role="tab"
+              aria-controls="panel-cameras"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Cameras</button
+            ><button
+              id="tab-lights"
+              role="tab"
+              aria-controls="panel-lights"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Lighting</button
+            ><button
+              id="tab-experiment"
+              role="tab"
+              aria-controls="panel-experiment"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Episodes</button
+            ><button
+              id="tab-advanced"
+              role="tab"
+              aria-controls="panel-advanced"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Tools
+            </button>
+          </div>
+        </div>
+        <div class="controlContent">
+          <section id="panel-scene" role="tabpanel" aria-labelledby="tab-scene">
+            <h2>Task setup</h2>
+            <div class="setupFields">
+              <label for="task">Task</label
+              ><select id="task">
+                <option value="transfer">Pick &amp; place</option>
+                <option value="sort">Sort by color</option>
+                <option value="stack">Stack blocks</option>
+                <option value="reach">Reach target</option>
+                <option value="kit" selected="">Pack a parts kit</option>
+                <option value="return">Unpack / return parts</option>
+                <optgroup label="Memory experiments">
+                  <option value="memory_recall">Delayed request</option>
+                  <option value="memory_covered">Covered bays</option>
+                  <option value="memory_sequence">Interrupted recipe</option>
+                  <option value="memory_revision">Revised request</option>
+                </optgroup>
+                <option value="insert">Insert peg into hole</option>
+                <optgroup label="Pick-and-Place Trials">
+                  <option value="trial_pick">Trial · isolated pickup</option>
+                  <option value="trial_clutter">
+                    Trial · cluttered pickup
+                  </option>
+                  <option value="trial_place">Trial · narrow placement</option>
+                  <option value="trial_obstacle">
+                    Trial · obstacle transfer
+                  </option>
+                </optgroup>
+                <option value="lights">
+                  Press red light switch · Panda
+                </option></select
+              ><label for="object">Objects</label
+              ><select id="object">
+                <option value="blocks">Polymer blocks</option>
+                <option value="cans">Aluminum cans</option>
+                <option value="fruit">Oranges</option>
+                <option value="pegs">Alignment pegs</option>
+                <option value="bottles">Sample bottles</option>
+                <option value="tiles">Circuit modules</option>
+                <option value="spools">Cable spools · harder grasps</option>
+                <option value="mixed">Mixed parts kit</option>
+                <option value="insertion_peg">Long insertion peg</option>
+              </select>
+              <p id="insertionNote" class="note" hidden="">
+                One long peg + a fixed cube with a square through-hole. Pick,
+                align, insert and release. Success requires a seated, upright,
+                stable peg. Generous clearance; no force control. Scripted demo
+                tuned for Panda and xArm 6; SO-101 and UR5e are experimental.
+              </p>
+            </div>
+            <details class="controlGroup" open="">
+              <summary>Robot &amp; environment</summary>
+              <label for="robot">Robot</label
+              ><select id="robot">
+                <option value="panda" selected="">Franka Panda · 7 DOF</option>
+                <option value="so101">SO-101 · 5 DOF</option>
+                <option value="ur5e">UR5e · 6 DOF</option>
+                <option value="xarm6">xArm 6 · 6 DOF</option>
+              </select>
+              <details class="quietDetails">
+                <summary>Robot specifications</summary>
+                <p class="note" id="robotDetails"></p>
+              </details>
+              <label for="scene">Scene</label
+              ><select id="scene">
+                <option value="kitting" selected="">Kitting cell</option>
+                <option value="lab">Precision lab</option>
+                <option value="factory">Factory floor</option>
+                <option value="kitchen">Food preparation</option>
+                <option value="mars">Martian outpost</option>
+              </select>
+              <p id="cellNote" class="note">
+                Blender-built cell. Supply bins and fixtures are visual;
+                manipulation uses the flat bench surface.
+              </p>
+            </details>
+            <details class="controlGroup">
+              <summary>Build with a prompt</summary>
+              <textarea
+                id="prompt"
+                aria-label="Scene prompt"
+                placeholder="Stack three blue blocks in the factory"
+              ></textarea
+              ><button id="apply" class="wide primary">Apply prompt ↗</button>
+              <div class="chips">
+                <button data-p="Stack blue blocks in the factory">
+                  Factory stack</button
+                ><button data-p="SO-101 move blocks in the lab">
+                  SO-101 tabletop
+                </button>
+                <button data-p="Insert a peg into a hole in the kitting cell">
+                  Peg insertion</button
+                ><button data-p="Cluttered pickup in the kitting cell">
+                  Clutter trial
+                </button>
+              </div>
+              <details>
+                <summary>Supported prompt vocabulary</summary>
+                <div class="note">
+                  Robot prompts: SO-101, Panda, UR5e, xArm 6. Scenes: kitting
+                  cell, lab, factory, kitchen, Mars. Objects: blocks, cans,
+                  oranges, pegs, bottles, modules, spools, mixed parts. Tasks:
+                  move, sort, stack, reach, kit, unpack. Add a color or “seed
+                  N”; “random” enables seeded variation.
+                </div>
+              </details>
+              <div class="note" id="feedback" role="status">
+                Choose a preset or describe a scene.
+              </div>
+            </details>
+            <button id="configureExperiment" class="wide nextStep">
+              Episode settings →
+            </button>
+          </section>
+          <section
+            id="panel-experiment"
+            role="tabpanel"
+            aria-labelledby="tab-experiment"
+            hidden=""
+          >
+            <h2 id="experimentHeading">Episode setup</h2>
+            <p class="note" id="experimentTask"></p>
+            <label for="seed">Episode seed</label
+            ><input
+              id="seed"
+              type="number"
+              value="1"
+              min="0"
+              max="4294967295"
+            />
+            <div id="memorySettingsHost" hidden></div>
+            <div id="episodeSettings">
+              <label
+                ><input id="variation" type="checkbox" /> Randomize poses, mass
+                and reach goals</label
+              ><button id="randomize" class="wide">
+                ↻ Randomize object layout
+              </button>
+              <p class="note">
+                Use Run task in the workspace to begin. Open Data Recorder below
+                the workspace to capture or batch episodes.
+              </p>
+              <button id="openRecorderSidebar" class="wide primary">
+                Open data recorder
+              </button>
+            </div>
+          </section>
+          <section
+            id="panel-advanced"
+            role="tabpanel"
+            aria-labelledby="tab-advanced"
+            hidden=""
+          >
+            <h2>Robot tools</h2>
+            <details class="controlGroup">
+              <summary>Robot physics</summary>
+              <label for="physicsMode">Control model · applies on reset</label
+              ><select id="physicsMode">
+                <option value="kinematic" selected="">
+                  Kinematic · existing demonstrations
+                </option>
+                <option value="dynamic">
+                  Dynamic Panda · unvalidated experiment
+                </option>
+              </select>
+              <label for="effortScale">Actuator effort cap</label
+              ><select id="effortScale">
+                <option value="1">100%</option>
+                <option value="0.25">25%</option>
+                <option value="0.05">5%</option>
+                <option value="0">Motors off</option>
+              </select>
+              <p class="note">
+                Dynamic mode selects Panda. Menagerie link inertias and mesh
+                collisions; 480 Hz by default. Cannon constraint experiment, not
+                MuJoCo-equivalent. No self-collision or hardware calibration.
+                Existing motion plans may fail. Reset after changing these
+                settings.
+              </p>
+              <p class="note">
+                <a
+                  href="https://github.com/google-deepmind/mujoco_menagerie/tree/8161bba264d7fa7c99ca301e91e7fb44737676ad/franka_emika_panda"
+                  target="_blank"
+                  rel="noopener"
+                  >Physical model · source and Apache-2.0 license</a
+                >
+              </p>
+              <p id="dynamicsStatus" class="note"></p>
+            </details>
+            <details class="controlGroup">
+              <summary>Object physics</summary>
+              <label for="friction">Object friction</label
+              ><input
+                id="friction"
+                type="range"
+                min="0.1"
+                max="1.5"
+                step="0.1"
+                value="0.8"
+              /><label for="mass">Object mass (kg)</label
+              ><input
+                id="mass"
+                type="number"
+                min="0.01"
+                max="0.5"
+                step="0.01"
+                value="0.06"
+              />
+            </details>
+            <details>
+              <summary>Joint control · radians / metres</summary>
+              <div id="jointControls"></div>
+            </details>
+            <details>
+              <summary>RL experiment · reach</summary>
+              <p class="note">
+                CEM searches three feedback gains through real environment
+                steps. Evaluates three held-out goal seeds. Panda only. Runs
+                locally; no neural model or server.
+              </p>
+              <button id="train" class="wide">Train reach controller</button
+              ><button id="learned" disabled="" class="wide">
+                Run learned controller</button
+              ><button id="policyDownload" disabled="" class="wide">
+                Download policy JSON
+              </button>
+              <p id="trainStatus" class="note" role="status">
+                Ready · 4 generations × 6 candidates
+              </p>
+            </details>
+            <details>
+              <summary>Developer API</summary>
+              <pre>
+const e = window.armature;
+e.reset({task:'reach', seed:42});
+const a = e.observe().state;
+const r = e.step(a);
+// observation, reward,
+// terminated, truncated, info</pre>
+              <p class="note">
+                Use record:true on reset to capture external policy steps. Call
+                finishRecording() then download(). Object poses are privileged
+                observations.
+              </p>
+            </details>
+            <details class="controlGroup">
+              <summary>Robot files &amp; licenses</summary>
+              <div class="chips">
+                <button id="combinedUrdf">Simulation URDF ↓</button
+                ><button id="urdf">Source arm URDF ↓</button
+                ><button id="license">Model license ↓</button>
+              </div>
+            </details>
+            <details class="controlGroup">
+              <summary>About this simulation</summary>
+              <div class="note">
+                Three.js rendering and Cannon physics. Choose kinematic control
+                or experimental Dynamic Panda. Model provenance is available
+                under Robot physics.<br /><a
+                  href=""
+                  download="robotics-arm-studio.html"
+                  >Download standalone HTML</a
+                >
+              </div>
+            </details>
+            <details class="controlGroup">
+              <summary>Playback &amp; overlays</summary>
+              <label for="speed"
+                >Motion speed <span id="speedlabel">1.0×</span></label
+              ><input
+                id="speed"
+                type="range"
+                min="0.3"
+                max="2"
+                step="0.1"
+                value="1"
+              /><label
+                ><input id="ghost" type="checkbox" /> Show next grasp
+                pose</label
+              ><label
+                ><input id="path" type="checkbox" /> Show tool trajectory</label
+              >
+            </details>
+          </section>
+          <section
+            id="panel-demo"
+            role="tabpanel"
+            aria-labelledby="tab-demo"
+            hidden
+          ></section>
+          <section
+            id="panel-cameras"
+            hidden=""
+            role="tabpanel"
+            aria-labelledby="tab-cameras"
+          ></section>
+          <section
+            id="panel-lights"
+            hidden=""
+            role="tabpanel"
+            aria-labelledby="tab-lights"
+          ></section>
+        </div>
+      </aside>
+      <main>
+        <div id="canvas"></div>
+        <div class="overlay">
+          <div class="eyebrow" id="workspaceMode">LIVE WORKSPACE</div>
+          <h1 id="title">Precision lab</h1>
+          <div class="tag" id="robotTag">FRANKA PANDA / 7-DOF + GRIPPER</div>
+        </div>
+        <div class="views">
+          <button id="cinema" title="Slow camera orbit">Cinema</button
+          ><button id="snapshot" title="Download viewport PNG">Snapshot</button
+          ><button data-view="perspective">Orbit</button
+          ><button data-view="front">Front</button
+          ><button data-view="top">Top</button>
+        </div>
+        <div class="cameraFeeds">
+          <div class="feed">
+            <canvas id="overheadFeed" width="160" height="120"></canvas
+            ><span>01 / OVERHEAD</span>
+          </div>
+          <div class="feed">
+            <canvas id="wristFeed" width="160" height="120"></canvas
+            ><span>02 / WRIST</span>
+          </div>
+          <small id="cameraFeedsNote"
+            >Live RGB · optional synchronized capture</small
+          >
+        </div>
+        <div id="stressReplayBanner" hidden="">
+          <b id="stressTrialText"></b><small id="stressTrialNote"></small>
+          <div>
+            <button id="stressBack">← Stress Lab</button
+            ><button id="stressPlay">Play / pause</button
+            ><button id="stressReproduce">Reproduce trial</button>
+          </div>
+        </div>
+        <div class="help">Drag to orbit · Scroll / pinch to zoom</div>
+        <div class="bottom">
+          <div class="transport">
+            <div class="phase">
+              <span id="phase">Ready to pick</span
+              ><small id="subphase">3 objects · planned transfer path</small>
+            </div>
+            <button id="reset" title="Reset task">↺ Reset</button
+            ><button class="primary" id="run">▶ Run task</button>
+          </div>
+          <div class="track"><div id="progress"></div></div>
+          <div class="stats">
+            <span id="tcp">TCP —</span><span id="joints">J1 — J2 — J3 —</span
+            ><span id="count">0 / 3 PLACED</span>
+          </div>
+        </div>
+      </main>
+      <div id="recorder" class="recorder">
+        <button
+          id="recorderToggle"
+          class="recorderToggle"
+          aria-expanded="false"
+          aria-controls="recorderBody"
+        >
+          <span class="recIcon">●</span
+          ><span>DATA RECORDER <small>LeRobot v3.0</small></span
+          ><span id="recordSummary">No episodes</span
+          ><span id="chevron">⌃</span>
+        </button>
+        <div id="recorderBody" hidden="">
+          <div class="recordHead">
+            <div>
+              <h2 id="datasetTitle">Dataset capture · Panda</h2>
+              <p>Synchronized observations + actions · 30 Hz</p>
+            </div>
+            <button id="record" class="recordButton">● Record task</button
+            ><button id="download" disabled="">↓ Dataset ZIP</button
+            ><label class="rgbLabel"
+              ><input id="rgb" type="checkbox" /> Record RGB</label
+            ><select id="batchCount" aria-label="Batch episodes">
+              <option value="3">3 episodes</option>
+              <option value="5">5 episodes</option>
+              <option value="8">8 episodes</option></select
+            ><button id="batch">Record batch</button>
+          </div>
+          <div id="replayRow" hidden="">
+            <span id="replayLabel">0s</span
+            ><input id="scrub" type="range" min="0" value="0" /><button
+              id="exitReplay"
+            >
+              Exit replay
+            </button>
+          </div>
+          <div class="recordGrid">
+            <section class="signals">
+              <div class="metricRow">
+                <div><small>EPISODES</small><b id="epTotal">0</b></div>
+                <div><small>FRAMES</small><b id="frameTotal">0</b></div>
+                <div><small>DURATION</small><b id="duration">0.00s</b></div>
+                <div><small>STATUS</small><b id="recStatus">Idle</b></div>
+              </div>
+              <div class="plotTitle">
+                Joint positions <span>rad · last 5 seconds</span>
+              </div>
+              <canvas id="signalPlot" width="600" height="115"></canvas>
+              <div class="legend">
+                <span>● base</span><span>● shoulder</span><span>● elbow</span
+                ><span>● J4</span>
+              </div>
+            </section>
+            <section class="frameInspector">
+              <div class="plotTitle">
+                Latest frame <span id="frameLabel">waiting</span>
+              </div>
+              <pre id="frameJson">
+Press Record task to capture a fresh episode.
+
+Observation: selected robot joints + gripper
+Action: issued joint command before physics
+Extras: TCP position, object poses, grasp state</pre>
+            </section>
+            <section class="datasetFiles">
+              <div class="plotTitle">
+                Export layout <span>native Parquet</span>
+              </div>
+              <pre>
+meta/info.json
+meta/stats.json
+lighting/events.jsonl
+meta/tasks.parquet
+meta/episodes/chunk-000/file-000.parquet
+data/chunk-000/file-000.parquet</pre>
+              <p id="exportStatus" role="status">
+                Each robot keeps its own dataset in this tab. Select a robot to
+                download its episodes. Scene changes finish an active recording
+                as interrupted.
+              </p>
+              <div id="episodeList"></div>
+            </section>
+          </div>
+          <div class="recordFoot">
+            <span
+              >Configured RGB cameras are stored as lossless PNG bytes in
+              Parquet. Intrinsics and camera poses accompany each recorded
+              frame.</span
+            ><a
+              href="https://huggingface.co/docs/lerobot/lerobot-dataset-v3"
+              target="_blank"
+              rel="noopener"
+              >Format documentation ↗</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="application/json" id="third-party-notices">
+      ARMATURE_NOTICES
+    </script>
+
+    <script>
+      /* ARMATURE_THREE */
+    </script>
+    <script>
+      /* ARMATURE_APP */
+    </script>
+  </body>
+</html>

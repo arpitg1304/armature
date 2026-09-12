@@ -1,0 +1,14 @@
+node_modules/
+dist/
+test-results/
+.venv-validation/
+.DS_Store
+
+.tools/
+*.blend1
+
+_site/
+reports/
+.env
+.env.*
+!.env.example

@@ -1,0 +1,30 @@
+{
+  "name": "armature",
+  "version": "28.0.0",
+  "description": "Standalone browser robot-learning and memory experiment simulator",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node tests/v28-source.mjs && node tests/protocol.mjs && node tests/v28-features.mjs && node tests/worker.mjs && node tests/kitting-physics.mjs && node tests/v28-authored.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "test:dataset": ".venv-validation/bin/python tests/dataset.py",
+    "test:stress-ui": "node tests/stress-ui.mjs",
+    "format": "prettier --write \"src/**/*.{js,html,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\"",
+    "test:kitting": "node tests/kitting-cell.mjs",
+    "test:kitting:dataset": ".venv-validation/bin/python tests/kitting-dataset.py",
+    "build:pages": "npm run build && node scripts/build-pages.mjs",
+    "test:pages": "node tests/pages.mjs"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "devDependencies": {
+    "acorn": "8.18.0",
+    "esbuild": "0.28.2",
+    "eslint-scope": "9.1.2",
+    "playwright": "1.63.0",
+    "prettier": "3.9.6"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  }
+}

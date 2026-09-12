@@ -1,0 +1,83 @@
+{
+  "source": "robotics-arm-studio.html",
+  "sha256": "13f54223315e7f2d64494230415d22307c806a88711a341fb5aaf814830af153",
+  "groups": [
+    {
+      "file": "src/ui/tabs.js",
+      "firstStatement": 0,
+      "lastStatement": 1
+    },
+    {
+      "file": "src/memory/protocol.js",
+      "firstStatement": 2,
+      "lastStatement": 3
+    },
+    {
+      "file": "src/memory/lab.js",
+      "firstStatement": 4,
+      "lastStatement": 4
+    },
+    {
+      "file": "vendor/cannon-es.js",
+      "firstStatement": 5,
+      "lastStatement": 102
+    },
+    {
+      "file": "src/simulation/objects.js",
+      "firstStatement": 103,
+      "lastStatement": 106
+    },
+    {
+      "file": "vendor/fflate.js",
+      "firstStatement": 108,
+      "lastStatement": 135
+    },
+    {
+      "file": "src/robots/models.js",
+      "firstStatement": 140,
+      "lastStatement": 147
+    },
+    {
+      "file": "src/robots/visuals.js",
+      "firstStatement": 148,
+      "lastStatement": 148
+    },
+    {
+      "file": "src/robots/urdf.js",
+      "firstStatement": 149,
+      "lastStatement": 150
+    },
+    {
+      "file": "src/simulation/environment.js",
+      "firstStatement": 151,
+      "lastStatement": 153
+    },
+    {
+      "file": "src/stress/lab.js",
+      "firstStatement": 154,
+      "lastStatement": 156
+    },
+    {
+      "file": "vendor/parquet.js",
+      "firstStatement": 157,
+      "lastStatement": 301
+    },
+    {
+      "file": "src/export/lerobot.js",
+      "firstStatement": 302,
+      "lastStatement": 308
+    },
+    {
+      "file": "src/main.js",
+      "firstStatement": 309,
+      "lastStatement": 437
+    }
+  ],
+  "assets": [
+    "panda",
+    "so101",
+    "ur5e",
+    "xarm6"
+  ],
+  "workerSha256": "7020d3e4ee1f3d9f5242355f7008572804ea1356ba03bee8299e93f830397ed5"
+}
