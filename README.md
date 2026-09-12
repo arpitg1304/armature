@@ -61,4 +61,8 @@ Memory tasks are hidden in the default studio. Append `?memory=1` to enable the 
 - [Validation coverage and dataset checks](docs/validation.md)
 - [Research directions](docs/next-improvements.md)
 
-Third-party notices ship with the standalone page. Their licenses remain applicable; the application's `UNLICENSED` package designation does not replace them.
+### License
+
+Copyright © 2026 Arpit Gupta. ARMATURE is licensed under the [GNU General Public License v3.0 only](LICENSE) (`GPL-3.0-only`), without warranty.
+
+Bundled dependencies and robot assets retain their own licenses and attribution requirements. The standalone page includes the application license and [third-party notices](assets/third-party-notices.json).

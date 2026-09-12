@@ -36,12 +36,15 @@ const app = await build({
 });
 const escapeScript = (s) => s.replace(/<\/script/gi, "<\\/script");
 let html = await fs.readFile("src/index.html", "utf8");
+const notices = {
+  ARMATURE:
+    "Copyright © 2026 Arpit Gupta. Licensed under GPL-3.0-only.\nSource: https://github.com/arpitg1304/armature\n\n" +
+    (await fs.readFile("LICENSE", "utf8")),
+  ...JSON.parse(await fs.readFile("assets/third-party-notices.json", "utf8")),
+};
 const replacements = {
   "/* ARMATURE_STYLES */": await fs.readFile("src/styles.css", "utf8"),
-  ARMATURE_NOTICES: await fs.readFile(
-    "assets/third-party-notices.json",
-    "utf8",
-  ),
+  ARMATURE_NOTICES: JSON.stringify(notices),
   "/* ARMATURE_THREE */": three,
   "/* ARMATURE_APP */":
     app.outputFiles[0].text +

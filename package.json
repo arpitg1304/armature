@@ -12,7 +12,7 @@
     "build:pages": "npm run build && node scripts/build-pages.mjs",
     "test:pages": "node tests/pages.mjs"
   },
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-only",
   "type": "module",
   "devDependencies": {
     "acorn": "8.18.0",
