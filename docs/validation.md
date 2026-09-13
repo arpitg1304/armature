@@ -8,6 +8,7 @@ npm run build
 npm test
 npm run test:browser
 npm run test:stress-ui
+npm run test:bookmarks
 npm run build:pages
 npm run test:pages
 ```
@@ -25,6 +26,8 @@ Browser checks use installed Chrome with a temporary profile. Set `ARMATURE_BROW
 - Research checks cover four memory protocols, physical success versus memory failure, hidden-history ambiguity in observations/RGB, and manual interruption.
 - Unit checks cover phone release/stale/out-of-order input handling, immutable demonstration slicing, human-label/evaluator separation, deterministic sweeps, OBJ parsing, collision validation, and sensor encoding.
 - The Pages smoke boots the self-contained HTML under a project URL path, verifies memory is hidden by default, steps the simulator, checks that no additional resources are requested, and verifies research opt-in.
+
+The bookmark/view suite checks per-robot persistence, non-teleporting velocity-limited moves, stopping and deletion, exact workspace-view restoration, and unchanged sensor RGB/configuration.
 
 ## Independent dataset checks
 

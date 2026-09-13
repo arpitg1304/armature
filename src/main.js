@@ -1,3 +1,5 @@
+import { createRobotBookmarks } from "./ui/bookmarks.js";
+import { createViewPresets } from "./ui/view-presets.js";
 import { MEMORY_ENABLED } from "./features.js";
 import { createMemoryLab } from "./memory/lab.js";
 import { syncControlSummary } from "./ui/tabs.js";
@@ -22,6 +24,8 @@ import { createDemonstrationStudio } from "./teleop/demonstrations.js";
 import { createSceneBuilder } from "./authoring/builder.js";
 if (!MEMORY_ENABLED)
   document.querySelector('optgroup[label="Memory experiments"]')?.remove();
+var bookmarks = null,
+  bookmarkTarget = null;
 var memoryLab = null,
   activeMemoryObject = 0,
   stablePlacementSteps = 0,
@@ -410,6 +414,7 @@ function switchRobot(u) {
       "Dataset capture \xB7 " + environment.model.label));
 }
 function resetScene(u) {
+  bookmarkTarget = null;
   memoryLab?.stop("Scene reset");
   memoryLab?.hide();
   ((element("workspaceMode").textContent = "LIVE WORKSPACE"),
@@ -469,6 +474,7 @@ function resetScene(u) {
     syncStudioControls(),
     memoryLab?.refresh(),
     syncControlSummary(),
+    bookmarks?.refresh(),
     builder?.onReset(),
     updateStatus(),
     { observation: environment.observe(), info: environment.info() }
@@ -681,19 +687,35 @@ function advanceControl() {
     updateStatus();
     return;
   }
+  if (controlMode !== "bookmark") bookmarkTarget = null;
   let u;
-  controlMode === "authored" && environment.taskRunner
-    ? (u = environment.taskRunner.action())
-    : controlMode === "teleop" && demonstrations
-      ? (u = demonstrations.action())
-      : controlMode === "expert"
-        ? (u = expertAction())
-        : controlMode === "learned" && learnedPolicy
-          ? (u = reachControllerAction(environment, learnedPolicy.gains))
-          : (u = Array.from({ length: environment.dof }, (v, m) =>
-              Number(element("joint" + m).value),
-            ));
+  controlMode === "bookmark" && bookmarkTarget
+    ? (u = bookmarkTarget)
+    : controlMode === "authored" && environment.taskRunner
+      ? (u = environment.taskRunner.action())
+      : controlMode === "teleop" && demonstrations
+        ? (u = demonstrations.action())
+        : controlMode === "expert"
+          ? (u = expertAction())
+          : controlMode === "learned" && learnedPolicy
+            ? (u = reachControllerAction(environment, learnedPolicy.gains))
+            : (u = Array.from({ length: environment.dof }, (v, m) =>
+                Number(element("joint" + m).value),
+              ));
   let a = stepAndRecord(u);
+  if (
+    controlMode === "bookmark" &&
+    bookmarkTarget &&
+    environment.q.every(
+      (value, index) => Math.abs(value - bookmarkTarget[index]) < 0.0001,
+    )
+  ) {
+    running = false;
+    bookmarkTarget = null;
+    element("run").textContent = "▶ Resume";
+    element("phase").textContent = "Bookmark reached";
+    bookmarks?.message("Pose reached. Simulation paused.");
+  }
   if (controlMode === "expert") {
     let v = expertPlan[planIndex];
     ((element("phase").textContent = v?.name || "Evaluate"),
@@ -1160,18 +1182,25 @@ function updateViewCamera() {
     viewCamera.lookAt(cameraTarget));
 }
 (updateViewCamera(),
-  document.querySelectorAll("[data-view]").forEach(
-    (u) =>
-      (u.onclick = () => {
-        (([cameraAzimuth, cameraInclination, cameraDistance] =
-          u.dataset.view === "top"
-            ? [0, 0.04, 2.7]
-            : u.dataset.view === "front"
-              ? [Math.PI / 2, 1.15, 2.8]
-              : [0.8, 1.03, 2.8]),
-          updateViewCamera());
-      }),
-  ),
+  createViewPresets({
+    read: () => ({
+      azimuth: cameraAzimuth,
+      inclination: cameraInclination,
+      distance: cameraDistance,
+      target: cameraTarget.toArray(),
+      cinema: cinemaMode,
+    }),
+    write: (state) => {
+      cameraAzimuth = state.azimuth;
+      cameraInclination = state.inclination;
+      cameraDistance = state.distance;
+      cameraTarget.fromArray(state.target);
+      cinemaMode = state.cinema;
+      element("cinema").classList.toggle("active", cinemaMode);
+      updateViewCamera();
+    },
+    getEnv: () => environment,
+  }),
   (element("cinema").onclick = () => {
     ((cinemaMode = !cinemaMode),
       element("cinema").classList.toggle("active", cinemaMode));
@@ -1209,7 +1238,11 @@ var Ms = new Map(),
       let l = [...Ms.values()],
         v = Math.hypot(l[0][0] - l[1][0], l[0][1] - l[1][1]);
       (Lu &&
-        (cameraDistance = T.MathUtils.clamp((cameraDistance * Lu) / v, 1.2, 7)),
+        (cameraDistance = T.MathUtils.clamp(
+          (cameraDistance * Lu) / v,
+          0.15,
+          7,
+        )),
         (Lu = v));
     }
     updateViewCamera();
@@ -1222,7 +1255,7 @@ var Ms = new Map(),
     (u.preventDefault(),
       (cameraDistance = T.MathUtils.clamp(
         cameraDistance + u.deltaY * 0.002,
-        1.2,
+        0.15,
         7,
       )),
       updateViewCamera());
@@ -2138,4 +2171,49 @@ if (memoryLab) {
     }
   };
   syncControlSummary();
+}
+
+if (!globalThis.ARMATURE_TEST) {
+  bookmarks = createRobotBookmarks({
+    host: element("robotBookmarks"),
+    getEnv: () => environment,
+    move: (pose) => {
+      if (training || replay || memoryLab?.active)
+        throw Error(
+          "Finish training, replay, or the memory trial before moving to a bookmark.",
+        );
+      if (environment.config.physicsMode !== "kinematic")
+        throw Error("Bookmarks require kinematic servo mode.");
+      if (environment.terminated || environment.truncated)
+        throw Error("Reset the ended episode before moving to a bookmark.");
+      bookmarkTarget = pose;
+      controlMode = "bookmark";
+      batchRemaining = 0;
+      stepAccumulator = 0;
+      running = true;
+      element("run").textContent = "Ⅱ Pause";
+      element("phase").textContent = "Moving to bookmark";
+      if (recordingEpisode) {
+        recordingEpisode.demonstration ??= {};
+        recordingEpisode.demonstration.interventions ??= [];
+        recordingEpisode.demonstration.interventions.push({
+          frame: recordingEpisode.frames.length,
+          simulationStep: environment.steps,
+          to: "bookmark",
+        });
+      }
+    },
+    stop: () => {
+      if (controlMode !== "bookmark") return;
+      bookmarkTarget = null;
+      running = false;
+      stepAccumulator = 0;
+      controlMode = "manual";
+      environment.q.forEach((value, index) => {
+        element("joint" + index).value = value;
+      });
+      element("run").textContent = "▶ Resume";
+      element("phase").textContent = "Bookmark move stopped";
+    },
+  });
 }

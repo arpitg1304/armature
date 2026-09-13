@@ -25,6 +25,12 @@ The studio opens on a **Franka Panda in a Blender-built kitting cell**; switch t
 3. Explore **Demonstrate** to record an episode, **Cameras** to inspect observations, or **Tools** to run stress trials.
 4. Change the layout or experiment settings and compare the result.
 
+### Bookmarks and workspace views
+
+In **Tools → Robot bookmarks**, name and save the current joint/gripper pose. Bookmarks are stored in this browser separately for each robot. **Move to pose** uses the existing kinematic servos; **Stop move** pauses it. These are joint-space moves, not collision-planned paths. Reset ended episodes before moving.
+
+Use **Overhead**, **Gripper**, or **Wide bench** above the workspace to inspect the scene. **Restore view** returns to the view from before the first preset. Gripper is a snapshot of the current tool location, not a tracking camera. These controls do not change dataset cameras or recorded RGB.
+
 ### Run and develop locally
 
 Requires Node.js 22+.

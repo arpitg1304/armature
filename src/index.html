@@ -288,6 +288,7 @@
                 value="0.06"
               />
             </details>
+            <div id="robotBookmarks"></div>
             <details>
               <summary>Joint control · radians / metres</summary>
               <div id="jointControls"></div>
@@ -395,7 +396,10 @@ const r = e.step(a);
           ><button id="snapshot" title="Download viewport PNG">Snapshot</button
           ><button data-view="perspective">Orbit</button
           ><button data-view="front">Front</button
-          ><button data-view="top">Top</button>
+          ><button data-view="top">Overhead</button>
+          <button data-view="gripper">Gripper</button>
+          <button data-view="wide">Wide bench</button>
+          <button id="restoreView" disabled>Restore view</button>
         </div>
         <div class="cameraFeeds">
           <div class="feed">

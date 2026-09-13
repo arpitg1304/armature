@@ -29,6 +29,9 @@ jobs:
       - run: npm run test:pages
         env:
           CI: true
+      - run: npm run test:bookmarks
+        env:
+          CI: true
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         with:

@@ -3202,3 +3202,6 @@ header > span {
     margin-bottom: 6px;
   }
 }
+
+/* Keep workspace view controls inside the canvas on smaller screens. */
+.views { flex-wrap: wrap; justify-content: flex-end; max-width: calc(100% - 28px); }

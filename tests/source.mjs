@@ -12,6 +12,7 @@ const browserGlobals = new Set([
   "MutationObserver",
   "Worker",
   "Image",
+  "Option",
   "FileReader",
   "RTCPeerConnection",
   "navigator",
