@@ -1,3 +1,5 @@
+import { createWorkspaceComfort } from "./ui/workspace-comfort.js";
+import { createStudioFeedback, notifyStudio } from "./ui/studio-feedback.js";
 import { createRobotBookmarks } from "./ui/bookmarks.js";
 import { createViewPresets } from "./ui/view-presets.js";
 import { MEMORY_ENABLED } from "./features.js";
@@ -24,6 +26,8 @@ import { createDemonstrationStudio } from "./teleop/demonstrations.js";
 import { createSceneBuilder } from "./authoring/builder.js";
 if (!MEMORY_ENABLED)
   document.querySelector('optgroup[label="Memory experiments"]')?.remove();
+var studioFeedback = null,
+  workspaceComfort = null;
 var bookmarks = null,
   bookmarkTarget = null;
 var memoryLab = null,
@@ -747,6 +751,7 @@ function advanceControl() {
     updateStatus());
 }
 function updateStatus() {
+  studioFeedback?.refresh();
   if (
     (trialLab?.refresh(),
     lightingLab?.update(),
@@ -840,6 +845,7 @@ function showRecorder(u) {
     (element("chevron").textContent = u ? "\u2304" : "\u2303"));
 }
 function updateRecorder() {
+  studioFeedback?.refresh();
   ((element("rgb").disabled = !!recordingEpisode || episodes.length > 0),
     cameraRig?.refresh());
   let u = recordingEpisode || episodes.at(-1),
@@ -860,7 +866,7 @@ function updateRecorder() {
     (element("download").disabled = !!recordingEpisode || !episodes.length),
     (element("recordSummary").textContent = a
       ? `${a.toLocaleString()} frames \xB7 ${episodes.length} episodes`
-      : "No episodes"));
+      : "No recordings yet · open to begin"));
   let l = u?.frames.at(-1);
   (l &&
     ((element("frameLabel").textContent =
@@ -884,13 +890,17 @@ function updateRecorder() {
       null,
       2,
     ))),
-    (element("episodeList").innerHTML = episodes
-      .slice(-4)
-      .map(
-        (v, m) =>
-          `<div class="epRow ${v.success ? "" : "interrupted"}"><button data-replay="${episodes.length - Math.min(4, episodes.length) + m}">Replay ${episodes.length - Math.min(4, episodes.length) + m}</button><span>${v.frames.length} frames</span><i>${v.success ? "Success" : "Failure / interrupted"}</i></div>`,
-      )
-      .join("")),
+    (element("episodeList").innerHTML =
+      episodes
+        .slice(-4)
+        .map(
+          (v, m) =>
+            `<div class="epRow ${v.success ? "" : "interrupted"}"><button data-replay="${episodes.length - Math.min(4, episodes.length) + m}">Replay ${episodes.length - Math.min(4, episodes.length) + m}</button><span>${v.frames.length} frames</span><i>${v.success ? "Success" : "Failure / interrupted"}</i></div>`,
+        )
+        .join("") ||
+      (!recordingEpisode
+        ? '<div class="emptyState"><strong>Your first recording starts here</strong><p>Choose Record task to capture a fresh episode, or use Demonstrate to record manual control. Finished episodes appear here for replay and download.</p></div>'
+        : '<div class="emptyState"><strong>Episode in progress</strong><p>Finish recording to replay or download this episode.</p></div>')),
     document
       .querySelectorAll("[data-replay]")
       .forEach(
@@ -920,6 +930,7 @@ function saveDownload(u, a, l = "application/octet-stream") {
   ((m.href = v),
     (m.download = a),
     m.click(),
+    notifyStudio("Download prepared: " + a),
     setTimeout(() => URL.revokeObjectURL(v), 3e4));
 }
 function startReplay(u) {
@@ -941,6 +952,7 @@ function startReplay(u) {
     showReplayFrame(0));
 }
 function updateReplayStatus(u, a) {
+  studioFeedback?.refresh();
   if (!u || !replay) return;
   let l = u["observation.state"],
     // Stress trajectories contain joints/objects only; FK supplies their TCP.
@@ -1887,6 +1899,7 @@ var yieldTraining = () => new Promise((u) => setTimeout(u, 0));
 var previousFrameTime = performance.now(),
   previousCaptureTime = 0;
 function animate(u) {
+  studioFeedback?.refresh();
   requestAnimationFrame(animate);
   let a = Math.min(0.1, (u - previousFrameTime) / 1e3);
   if (
@@ -1916,6 +1929,7 @@ function animate(u) {
       !replay &&
       (captureCameras(!1), (previousCaptureTime = u)),
     lightingLab?.update(),
+    workspaceComfort?.refreshPreview(),
     renderer.render(scene, viewCamera));
 }
 requestAnimationFrame(animate);
@@ -2176,6 +2190,7 @@ if (memoryLab) {
 if (!globalThis.ARMATURE_TEST) {
   bookmarks = createRobotBookmarks({
     host: element("robotBookmarks"),
+    save: saveDownload,
     getEnv: () => environment,
     move: (pose) => {
       if (training || replay || memoryLab?.active)
@@ -2217,3 +2232,22 @@ if (!globalThis.ARMATURE_TEST) {
     },
   });
 }
+
+if (!globalThis.ARMATURE_TEST) {
+  studioFeedback = createStudioFeedback(() => ({
+    running,
+    training,
+    replay: !!replay,
+    recording: !!recordingEpisode,
+    finished:
+      environment.terminated ||
+      environment.truncated ||
+      (controlMode === "expert" &&
+        expertPlan.length > 0 &&
+        planIndex >= expertPlan.length),
+    steps: environment.steps,
+  }));
+  studioFeedback.refresh();
+}
+
+if (!globalThis.ARMATURE_TEST) workspaceComfort = createWorkspaceComfort();

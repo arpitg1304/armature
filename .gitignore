@@ -3,6 +3,7 @@ dist/
 test-results/
 .venv-validation/
 .DS_Store
+IDEAS.md
 
 .tools/
 *.blend1

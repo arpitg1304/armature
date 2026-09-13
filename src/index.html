@@ -391,24 +391,36 @@ const r = e.step(a);
           <h1 id="title">Precision lab</h1>
           <div class="tag" id="robotTag">FRANKA PANDA / 7-DOF + GRIPPER</div>
         </div>
-        <div class="views">
-          <button id="cinema" title="Slow camera orbit">Cinema</button
-          ><button id="snapshot" title="Download viewport PNG">Snapshot</button>
-          <label class="workspaceViewControl" for="workspaceView">
-            View
-            <select
-              id="workspaceView"
-              title="Workspace view only; recorded cameras are unchanged"
-            >
-              <option value="" disabled selected>Choose preset</option>
-              <option value="perspective">Orbit</option>
-              <option value="front">Front</option>
-              <option value="top">Overhead</option>
-              <option value="gripper">Gripper close-up</option>
-              <option value="wide">Wide bench</option>
-            </select>
-          </label>
-          <button id="restoreView" disabled>Restore view</button>
+        <div class="views" aria-label="Workspace tools">
+          <div
+            id="workspaceLighting"
+            class="workspaceTools"
+            role="group"
+            aria-label="Lighting"
+          ></div>
+          <div class="workspaceTools" role="group" aria-label="Workspace view">
+            <button id="cinema" title="Slow camera orbit">Cinema</button>
+            <label class="workspaceViewControl" for="workspaceView">
+              View
+              <select
+                id="workspaceView"
+                title="Workspace view only; recorded cameras are unchanged"
+              >
+                <option value="" disabled selected>Choose preset</option>
+                <option value="perspective">Orbit</option>
+                <option value="front">Front</option>
+                <option value="top">Overhead</option>
+                <option value="gripper">Gripper close-up</option>
+                <option value="wide">Wide bench</option>
+              </select>
+            </label>
+            <button id="restoreView" disabled>Restore view</button>
+          </div>
+          <div class="workspaceTools" role="group" aria-label="Capture">
+            <button id="snapshot" title="Download workspace PNG">
+              Snapshot
+            </button>
+          </div>
         </div>
         <div class="cameraFeeds">
           <div class="feed">
@@ -435,6 +447,14 @@ const r = e.step(a);
         <div class="bottom">
           <div class="transport">
             <div class="phase">
+              <div
+                id="studioStatus"
+                role="status"
+                aria-live="polite"
+                data-state="ready"
+              >
+                Ready
+              </div>
               <span id="phase">Ready to pick</span
               ><small id="subphase">3 objects · planned transfer path</small>
             </div>
@@ -545,6 +565,12 @@ data/chunk-000/file-000.parquet</pre>
           </div>
         </div>
       </div>
+    </div>
+    <div id="studioNotification" hidden>
+      <span id="studioNotificationText" role="status" aria-live="polite"></span>
+      <button id="dismissNotification" aria-label="Dismiss notification">
+        ×
+      </button>
     </div>
     <script type="application/json" id="third-party-notices">
       ARMATURE_NOTICES

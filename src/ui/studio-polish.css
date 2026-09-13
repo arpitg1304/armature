@@ -1,0 +1,476 @@
+/* Interface-only styles: never applied to the rendered scene or sensor passes. */
+:root {
+  --studio-focus: #c3ef74;
+  --studio-radius: 8px;
+}
+button,
+select,
+input[type="text"],
+input[type="number"],
+textarea {
+  border-radius: var(--studio-radius);
+}
+button,
+select {
+  min-height: 36px;
+}
+button {
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+button:disabled,
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--studio-focus);
+  outline-offset: 3px;
+}
+.controlContent {
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+.controlContent > section,
+.recordGrid > section {
+  min-width: 0;
+}
+.controlContent p,
+.emptyState {
+  overflow-wrap: anywhere;
+}
+input[type="range"] {
+  accent-color: var(--studio-accent);
+}
+.views {
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid #445660;
+  border-radius: 11px;
+  background: rgba(21, 28, 34, 0.94);
+}
+.workspaceTools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.workspaceTools + .workspaceTools {
+  border-left: 1px solid #445660;
+  padding-left: 8px;
+}
+.views .workspaceViewControl {
+  margin: 0;
+}
+.views button,
+.views select {
+  min-height: 36px;
+}
+#studioStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 3px 8px;
+  margin-bottom: 6px;
+  border: 1px solid #68808f;
+  border-radius: 999px;
+  color: #dce8ef;
+  background: #27343f;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.3px;
+}
+#studioStatus::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 50%;
+}
+#studioStatus[data-state="running"] {
+  color: #d2f4a3;
+  border-color: #658443;
+  background: #293b25;
+}
+#studioStatus[data-state="recording"] {
+  color: #ffd5d1;
+  border-color: #b46b66;
+  background: #4c2d30;
+}
+#studioStatus[data-state="paused"] {
+  color: #ffe0a0;
+  border-color: #8b774b;
+  background: #3d3628;
+}
+#studioStatus[data-state="replay"] {
+  color: #cedcff;
+  border-color: #6f83b0;
+  background: #2c354d;
+}
+#studioStatus[data-state="finished"] {
+  color: #bfe8de;
+  border-color: #52857a;
+  background: #253e39;
+}
+#studioStatus[data-state="training"] {
+  color: #e8d6ff;
+  border-color: #8e72a6;
+  background: #3b2f47;
+}
+.emptyState {
+  padding: 14px;
+  border: 1px dashed #536674;
+  border-radius: 8px;
+  background: #1c2831;
+}
+.emptyState strong {
+  display: block;
+  color: #e2ecf2;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.emptyState p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #b9cbd6;
+  margin: 0;
+}
+#bookmarkEmpty {
+  margin: 12px 0;
+}
+#episodeList:empty {
+  display: none;
+}
+#studioNotification {
+  position: fixed;
+  right: 20px;
+  bottom: 68px;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(460px, calc(100vw - 32px));
+  padding: 12px 14px;
+  border: 1px solid #738c68;
+  border-radius: 10px;
+  background: #22332b;
+  color: #e1efdb;
+  box-shadow: 0 8px 32px #0005;
+}
+#studioNotification[hidden] {
+  display: none;
+}
+#studioNotificationText {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+#dismissNotification {
+  flex-shrink: 0;
+  padding: 4px 10px;
+}
+.recordHead {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.recordHead > div {
+  min-width: 0;
+}
+.recordHead select {
+  width: auto;
+}
+.recordGrid pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.recorderToggle #recordSummary {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (min-width: 801px) and (max-width: 1250px) {
+  .views {
+    top: 104px;
+    max-width: calc(100% - 28px);
+  }
+  .cameraFeeds {
+    top: 218px;
+    width: 120px;
+  }
+  .bottom {
+    padding: 14px;
+  }
+}
+@media (max-width: 800px) {
+  header {
+    padding: 0 14px;
+    gap: 10px;
+  }
+  header b {
+    font-size: 15px;
+    letter-spacing: 2px;
+  }
+  header > span {
+    display: none;
+  }
+  header #stressOpen {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 8px;
+  }
+  .app {
+    width: 100%;
+  }
+  main {
+    min-height: 570px;
+    height: 78dvh;
+  }
+  .views {
+    top: 106px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+    justify-content: flex-start;
+  }
+  .views .workspaceTools {
+    flex-wrap: wrap;
+  }
+  .views .workspaceTools + .workspaceTools {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .views .workspaceViewControl select {
+    min-width: 130px;
+  }
+  button,
+  select {
+    min-height: 44px;
+  }
+  .views button,
+  .views select {
+    min-height: 40px;
+  }
+  .bottom {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 12px;
+  }
+  .transport {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .transport .phase {
+    flex-basis: 100%;
+    min-width: 0;
+  }
+  .transport > button {
+    flex: 1;
+  }
+  .stats {
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 10px;
+  }
+  .help {
+    display: none;
+  }
+  #controlPanel {
+    min-height: 0;
+    max-height: 85dvh;
+  }
+  .controlContent {
+    min-width: 0;
+  }
+  #recorderBody {
+    max-height: 70dvh;
+    overflow-y: auto;
+  }
+  .recordHead > div {
+    flex-basis: 100%;
+  }
+  .recordHead h2 {
+    overflow-wrap: anywhere;
+  }
+  .recordGrid {
+    min-width: 0;
+    padding: 12px;
+  }
+  .metricRow {
+    flex-wrap: wrap;
+  }
+  .recordFoot {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #studioNotification {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+}
+
+@media (min-width: 801px) and (max-width: 1250px) {
+  .views {
+    top: 128px;
+  }
+}
+@media (max-width: 800px) {
+  .views {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .views .workspaceTools {
+    display: contents;
+  }
+  .views .workspaceViewControl {
+    grid-row: 1;
+    grid-column: 1 / -1;
+  }
+  .views .workspaceViewControl select {
+    flex: 1;
+    min-width: 0;
+  }
+  .views #lightingOpen {
+    grid-row: 2;
+    grid-column: 1;
+  }
+  .views #cinema {
+    grid-row: 2;
+    grid-column: 2;
+  }
+  .views #restoreView {
+    grid-row: 2;
+    grid-column: 3;
+  }
+  .views #snapshot {
+    grid-row: 2;
+    grid-column: 4;
+  }
+  .views button {
+    padding: 6px 3px;
+    font-size: 11px;
+  }
+}
+
+/* Workspace comfort: layout and display-only preview controls. */
+.app {
+  position: relative;
+}
+@media (min-width: 801px) {
+  body:not(.sidebarHidden) .app {
+    grid-template-columns: var(--sidebar-width, 368px) minmax(0, 1fr);
+  }
+}
+#sidebarResize {
+  position: absolute;
+  left: calc(var(--sidebar-width, 368px) - 4px);
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  z-index: 15;
+  cursor: col-resize;
+  touch-action: none;
+}
+#sidebarResize:hover,
+#sidebarResize:focus-visible {
+  background: #c3ef7466;
+  outline: 2px solid #c3ef74;
+  outline-offset: -2px;
+}
+.resizingSidebar,
+.resizingSidebar * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+.sidebarHidden #sidebarResize {
+  display: none;
+}
+#toggleCameraPreviews {
+  width: 100%;
+  font-size: 11px;
+  padding: 6px;
+  min-height: 30px;
+}
+.cameraFeeds.previewsCollapsed .feed,
+.cameraFeeds.previewsCollapsed > small {
+  display: none !important;
+}
+.feed[role="button"] {
+  cursor: zoom-in;
+}
+.feed[role="button"]:focus-visible {
+  outline: 2px solid var(--studio-focus);
+  outline-offset: 3px;
+}
+#openCameraPreview {
+  margin: 0 0 18px;
+}
+.bookmarkFileActions {
+  margin-top: 12px;
+}
+#cameraPreviewDialog {
+  width: min(880px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  border: 1px solid #627989;
+  border-radius: 14px;
+  padding: 20px;
+  background: #17232c;
+  color: #e6eef4;
+}
+#cameraPreviewDialog::backdrop {
+  background: #070d14bb;
+}
+.previewDialogHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.previewDialogHead h2 {
+  margin: 0;
+  font-size: 18px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+#enlargedCamera {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 60dvh;
+  object-fit: contain;
+  background: #10171c;
+}
+#enlargedCamera[hidden] {
+  display: none;
+}
+#previewCamera {
+  width: auto;
+  min-width: 180px;
+}
+@media (max-width: 800px) {
+  #sidebarResize {
+    display: none;
+  }
+  #cameraPreviewDialog {
+    padding: 14px;
+  }
+}
+.cameraFeeds #toggleCameraPreviews,
+.cameraFeeds .feed[role="button"] {
+  pointer-events: auto;
+}

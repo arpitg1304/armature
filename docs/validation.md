@@ -9,6 +9,8 @@ npm test
 npm run test:browser
 npm run test:stress-ui
 npm run test:bookmarks
+npm run test:ui
+npm run test:comfort
 npm run build:pages
 npm run test:pages
 ```
@@ -28,6 +30,10 @@ Browser checks use installed Chrome with a temporary profile. Set `ARMATURE_BROW
 - The Pages smoke boots the self-contained HTML under a project URL path, verifies memory is hidden by default, steps the simulator, checks that no additional resources are requested, and verifies research opt-in.
 
 The bookmark/view suite checks per-robot persistence, non-teleporting velocity-limited moves, stopping and deletion, exact workspace-view restoration, and unchanged sensor RGB/configuration.
+
+The UI polish check exercises real run/pause/record/replay/finished status transitions, empty-state guidance, save/download confirmations, keyboard focus, and desktop/tablet/phone layout bounds. It writes review screenshots to `test-results/ui-review/`.
+
+The workspace comfort check covers pointer/keyboard sidebar sizing, preference persistence/reset, bookmark rename and file validation, enlarged camera pixel copies, focus return and phone dialog bounds. Review images are in `test-results/comfort-review/`.
 
 ## Independent dataset checks
 

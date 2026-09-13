@@ -11,7 +11,9 @@
     "format": "prettier --write \"src/**/*.{js,html,css}\" \"scripts/**/*.mjs\" \"tests/**/*.mjs\"",
     "build:pages": "npm run build && node scripts/build-pages.mjs",
     "test:pages": "node tests/pages.mjs",
-    "test:bookmarks": "node tests/bookmarks-views.mjs"
+    "test:bookmarks": "node tests/bookmarks-views.mjs",
+    "test:ui": "node tests/ui-polish.mjs",
+    "test:comfort": "node tests/workspace-comfort.mjs"
   },
   "license": "GPL-3.0-only",
   "type": "module",

@@ -31,6 +31,14 @@ In **Tools → Robot bookmarks**, name and save the current joint/gripper pose. 
 
 Use the **View** dropdown above the workspace to choose **Orbit**, **Front**, **Overhead**, **Gripper close-up**, or **Wide bench** to inspect the scene. **Restore view** returns to the view from before the first preset. Gripper is a snapshot of the current tool location, not a tracking camera. These controls do not change dataset cameras or recorded RGB.
 
+### Workspace comfort
+
+Drag the sidebar edge to resize it; double-click to restore its default width. Keyboard users can focus the divider and use arrow keys or Home. Sidebar width, visible panels, accordion sections, recorder expansion and collapsed thumbnails are remembered in this browser. Robot, task and experiment settings are not restored by this preference feature. **Tools → Reset workspace preferences** resets the layout without deleting bookmarks.
+
+Click a workspace camera thumbnail, or **Cameras → Enlarge camera preview**, to open a larger view. Switch between overhead and wrist cameras; Escape closes it and returns focus. This magnifies existing camera pixels without increasing recording resolution.
+
+In **Tools → Robot bookmarks**, rename the selected pose or export/import JSON for the selected robot. Imports validate the robot, joint names, units and servo limits before adding any poses. Name conflicts get an imported suffix; existing poses are never overwritten.
+
 ### Run and develop locally
 
 Requires Node.js 22+.

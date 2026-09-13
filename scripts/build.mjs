@@ -43,7 +43,10 @@ const notices = {
   ...JSON.parse(await fs.readFile("assets/third-party-notices.json", "utf8")),
 };
 const replacements = {
-  "/* ARMATURE_STYLES */": await fs.readFile("src/styles.css", "utf8"),
+  "/* ARMATURE_STYLES */":
+    (await fs.readFile("src/styles.css", "utf8")) +
+    "\n" +
+    (await fs.readFile("src/ui/studio-polish.css", "utf8")),
   ARMATURE_NOTICES: JSON.stringify(notices),
   "/* ARMATURE_THREE */": three,
   "/* ARMATURE_APP */":
