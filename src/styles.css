@@ -3205,3 +3205,20 @@ header > span {
 
 /* Keep workspace view controls inside the canvas on smaller screens. */
 .views { flex-wrap: wrap; justify-content: flex-end; max-width: calc(100% - 28px); }
+
+.workspaceViewControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+  color: #e6ecef;
+}
+.views .workspaceViewControl select {
+  width: auto;
+  min-width: 145px;
+  margin: 0;
+  padding: 8px 28px 8px 10px;
+  font-size: 12px;
+  background-color: rgba(27, 37, 43, 0.95);
+}

@@ -165,8 +165,10 @@ try {
     const config = JSON.stringify(armature.cameras.config);
     const before = snapshot(),
       views = [];
-    for (const preset of ["top", "gripper", "wide"]) {
-      document.querySelector('[data-view="' + preset + '"]').click();
+    for (const preset of ["perspective", "front", "top", "gripper", "wide"]) {
+      const picker = document.getElementById("workspaceView");
+      picker.value = preset;
+      picker.dispatchEvent(new Event("change"));
       views.push(snapshot());
     }
     armature.cameras.captureSynthetic();
@@ -182,8 +184,8 @@ try {
       afterConfig: JSON.stringify(armature.cameras.config),
     };
   });
-  assert(cameras.views.every((view) => view !== cameras.before));
-  assert.equal(new Set(cameras.views).size, 3);
+  assert(cameras.views.slice(1).every((view) => view !== cameras.before));
+  assert.equal(new Set(cameras.views).size, 5);
   assert.equal(
     cameras.restored,
     cameras.before,

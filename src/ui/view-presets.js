@@ -30,9 +30,13 @@ export function createViewPresets({ read, write, getEnv }) {
     write(next);
     restore.disabled = false;
   }
-  document.querySelectorAll("[data-view]").forEach((button) => {
-    button.onclick = () => apply(button.dataset.view);
-  });
+  const picker = document.getElementById("workspaceView");
+  picker.onchange = () => {
+    apply(picker.value);
+    // This is a preset action, not an indicator of the current orbit position.
+    // Reset so the same preset can be applied again after moving the camera.
+    picker.value = "";
+  };
   restore.onclick = () => {
     if (previous) write(previous);
     previous = null;

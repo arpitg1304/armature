@@ -393,12 +393,21 @@ const r = e.step(a);
         </div>
         <div class="views">
           <button id="cinema" title="Slow camera orbit">Cinema</button
-          ><button id="snapshot" title="Download viewport PNG">Snapshot</button
-          ><button data-view="perspective">Orbit</button
-          ><button data-view="front">Front</button
-          ><button data-view="top">Overhead</button>
-          <button data-view="gripper">Gripper</button>
-          <button data-view="wide">Wide bench</button>
+          ><button id="snapshot" title="Download viewport PNG">Snapshot</button>
+          <label class="workspaceViewControl" for="workspaceView">
+            View
+            <select
+              id="workspaceView"
+              title="Workspace view only; recorded cameras are unchanged"
+            >
+              <option value="" disabled selected>Choose preset</option>
+              <option value="perspective">Orbit</option>
+              <option value="front">Front</option>
+              <option value="top">Overhead</option>
+              <option value="gripper">Gripper close-up</option>
+              <option value="wide">Wide bench</option>
+            </select>
+          </label>
           <button id="restoreView" disabled>Restore view</button>
         </div>
         <div class="cameraFeeds">
